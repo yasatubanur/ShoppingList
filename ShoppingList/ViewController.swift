@@ -18,8 +18,7 @@ class ViewController: UITableViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
         navigationItem.rightBarButtonItem?.tintColor = .black
-        
-        let list = shoppingList.joined(separator: "\n")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(suggest))
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -54,6 +53,12 @@ class ViewController: UITableViewController {
         tableView.insertRows(at: [indexPath], with: .automatic)
         return
     }
-
+    
+    @objc func suggest(){
+        var list = shoppingList.joined(separator: "\n")
+        let vc = UIActivityViewController(activityItems: [list], applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc,animated: true)
+    }
 }
 
