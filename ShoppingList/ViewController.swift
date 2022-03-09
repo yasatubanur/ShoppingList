@@ -18,6 +18,8 @@ class ViewController: UITableViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
         navigationItem.rightBarButtonItem?.tintColor = .black
+        
+        let list = shoppingList.joined(separator: "\n")
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -26,7 +28,7 @@ class ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Item", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Items", for: indexPath)
         cell.textLabel?.text = shoppingList[indexPath.row]
         return cell
     }
@@ -46,7 +48,11 @@ class ViewController: UITableViewController {
     }
     
     func submit(_ item: String){
+        shoppingList.insert(item, at: 0)
         
+        let indexPath = IndexPath(row: 0, section: 0)
+        tableView.insertRows(at: [indexPath], with: .automatic)
+        return
     }
 
 }
