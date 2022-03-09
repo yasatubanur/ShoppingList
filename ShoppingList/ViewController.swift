@@ -7,13 +7,47 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UITableViewController {
+    var shoppingList = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        title = "Shopping List"
+        navigationController?.navigationBar.backgroundColor = .lightGray
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
+        navigationItem.rightBarButtonItem?.tintColor = .black
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(shoppingList.count)
+        return shoppingList.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Item", for: indexPath)
+        cell.textLabel?.text = shoppingList[indexPath.row]
+        return cell
     }
 
+    @objc func addItem(){
+        let ac = UIAlertController(title: "Enter an item", message: nil, preferredStyle: .alert)
+        ac.addTextField()
+        
+        let submitAction = UIAlertAction(title: "Submit", style: .default){
+            [weak self, weak ac] action in
+            guard let item = ac?.textFields?[0].text else { return }
+            self?.submit(item)
+        }
+        
+        ac.addAction(submitAction)
+        present(ac,animated: true)
+    }
+    
+    func submit(_ item: String){
+        
+    }
 
 }
 
